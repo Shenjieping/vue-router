@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="jslib/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		
+	</head>
+	<body>
+		<div id="app">
+			<v-header><mark>啦啦啦啦啦了</mark></v-header>
+		</div>
+		<template id="header">
+			<header>
+				<h1>这里是头部标签{{msg}}</h1>
+				<slot>哈哈哈</slot>
+				<h1>我们正在学习slot分发内容</h1>
+			</header>
+		</template>
+	</body>
+	<script type="text/javascript">
+//		
+		var  vw = new Vue({
+			el:"#app",
+			data:{
+				
+			},
+			components:{
+				"v-header":{
+					template:"#header",
+					data:function(){
+						return {
+							msg:"你会显示吗"
+						}
+					}
+				}
+			}
+			
+		})
+	</script>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="jslib/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<v-header></v-header>
+		</div>
+		<template id="header">
+			<header>
+				<h2>我是头部标签</h2>
+				<button @click="getChildData()">获取子组件数据</button>
+				<v-nav ref="mynav"></v-nav>
+			</header>
+		</template>
+		<template id="nav">
+			<nav>
+				<ul><li>首页----- {{msg}}</li></ul>
+			</nav>
+		</template>
+	</body>
+	<script type="text/javascript">
+		/*
+		 * 1、子组件定义一些数据或者方法
+		 * 2、在嵌套组件内給子组件添加一个属性   ref = "mynav"
+		 * 3、在父组件中添加一个事件，用来获取子组件的数据或者方法
+		 * 	this.$refs.mynav
+		 * */
+		var  vw = new Vue({
+			el:"#app",
+			data:{
+				
+			},
+			components:{
+				"v-header":{
+					template:"#header",
+					methods:{
+						getChildData:function(){
+							console.log(this.$refs.mynav.msg)
+							console.log(this.$refs.mynav.getMsg())
+						}
+					},
+					components:{
+						"v-nav":{
+							template:"#nav",
+							data:function(){
+								return {
+									msg:"我是nav子组件"
+								}
+							},
+							methods:{
+								getMsg:function(){
+									return this.msg+"lalalalalala";
+								}
+							}
+						}
+					}
+				}
+				
+			}
+		})
+	</script>
+</html>

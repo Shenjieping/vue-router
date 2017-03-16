@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="jslib/vue.min.js" type="text/javascript" charset="utf-8"></script>	
+		<script src="jslib/vue-router.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.router-link-active{
+				font-size:30px
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<router-link to="/home">首页</router-link> | 
+			<router-link to="/kind">分类</router-link>  |
+			<router-link to="/user">我的</router-link>
+			<hr />
+			<router-view></router-view><!-- 相当于ng-view   -->
+		</div>
+		<template id="home">
+			<div>
+				这里是首页
+				<router-link to="/kind">去分类</router-link>
+				<a href="#/user"><button>去用户中心</button></a>
+			</div>
+		</template>
+		<template id="kind">
+			<div>
+				这里是分类
+				
+				<ul>
+					<a href="#/kindList/1"><li>衬衫</li></a>
+					<a href="#/kindList/2"><li>棉服</li></a>
+					<a href="#/kindList/3"><li>晚礼服</li></a>
+				</ul>
+			</div>
+		</template>
+		<template id="user">
+			<div>
+				这里是用户中心
+			</div>
+		</template>
+		<template id="kindList">
+			<div>
+				<!--<a href="#/kind"><button>返回列表</button></a>-->
+				<button @click="javascript:history.back(-1);">返回列表</button>
+				这里是{{type}}列表页面
+			</div>
+		</template>
+	</body>
+	<script type="text/javascript">
+		//1、定义组件
+		const Home = {
+			template:"#home"
+		}
+		const Kind = {
+			template:"#kind"
+		}
+		const User = {
+			template:"#user"
+		}
+		const KindList = {
+			template:"#kindList",
+			data:function(){
+				return {
+					type:""
+				}
+			},
+			mounted:function(){
+				console.log(this.$route.params.classid);
+				this.type = this.$route.params.classid;
+			}
+		}
+		
+		//2、定义路由----变量名尽量写routes，因为在实例化VueRouter的时候可以简写
+		//是一个数组，数组中每一个对象匹配一组路由
+		//每一个对象中，至少有连个参数    path(路径)     component（组件）
+		const routes = [
+			{path:"/home",component:Home},
+			{path:"/kind",component:Kind},
+			{path:"/user",component:User},
+			{path:"/kindList/:classid",component:KindList},
+			{path:"*",redirect:"/home"}
+		];
+		
+		//3、实例化VueRouter对象  变量名字取名为router
+		const router = new VueRouter({
+			//配置路由   routes : 路由名称   如果路由名称写作routes，则可以简写为    routes
+			routes:routes      //简写就是直接写一个    routes    不需要加：
+		})
+		
+		//4、挂载,将我们的路由与结构进行连接起来
+		var vw = new Vue({
+			router:router,
+			el:"#app"
+		})
+	</script>
+</html>

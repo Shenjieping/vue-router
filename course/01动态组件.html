@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="jslib/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<v-tema></v-tema>
+			<!--<button @click="changeCom('v-tema')">切换A组件</button>
+			<button @click="changeCom('v-temb')">切换B组件</button>-->
+			<button @click="tem='v-tema'">切换A组件</button>
+			<button @click="tem='v-temb'">切换B组件</button>
+			<component :is="tem"></component>
+		</div>
+		<template id="tema">
+			<div>
+				我是A组件
+			</div>
+		</template>
+		<template id="temb">
+			<div>
+				我是b组件
+			</div>
+		</template>
+	</body>
+	<script type="text/javascript">
+		/*
+		 *  1、首先至少准备两个组件	
+		 *  2、切换使用的是  <component is="v-tema"></component>   is属性为 组件名称
+		 *  3、 <component is="v-tema"></component>  会把我们的翻译为    <v-tema></v-tema>
+		 * 
+		 * 	定义--注册---使用
+		 * */
+		var  vw = new Vue({
+			el:"#app",
+			data:{
+				tem:"v-tema"
+			},
+			methods:{
+				changeCom:function(type){
+					this.tem = type;
+				}
+			},
+			components:{
+				"v-tema":{
+					template:"#tema"
+				},
+				"v-temb":{
+					template:"#temb"
+				}
+			}
+			
+		})
+	</script>
+</html>

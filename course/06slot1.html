@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="jslib/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		
+	</head>
+	<body>
+		<div id="app">
+			<v-header>
+				<ul slot="ul-slot">
+					<li>第1个</li>
+					<li>第2个</li>
+					<li>第3个</li>
+					<li>第4个</li>
+					<li>第5个</li>
+				</ul>	
+				<ol slot="ol-slot">
+					<li>第1个第1个第1个第1个</li>
+					<li>第2个第2个第2个第2个</li>
+					<li>第3个</li>
+					<li>第4个</li>
+					<li>第5个</li>
+				</ol>	
+			</v-header>
+			<v-header>
+				<ul slot="ul-slot">
+					<li>第1个11111111</li>
+					<li>第2个111111</li>
+					<li>第3个11111</li>
+					<li>第4个11111</li>
+					<li>第5个1111</li>
+				</ul>	
+				<ol slot="ol-slot">
+					<li>第1个1111111111111</li>
+					<li>第2个11111111</li>
+					<li>第3个11111</li>
+					<li>第4个1111</li>
+					<li>第5个1111</li>
+				</ol>	
+			</v-header>
+		</div>
+		<template id="header">
+			<header>
+				<h1>这里是头部标签{{msg}}</h1>
+				<slot name="ul-slot">哈哈哈</slot>
+				<h1>我们正在学习slot分发内容</h1>
+				<slot name="ol-slot">哈哈哈</slot>
+			</header>
+		</template>
+	</body>
+	<script type="text/javascript">
+//		slot分发内容
+			/*
+			 	自定义组件中添加HTML代码--正确的显示
+			 	简单一点来说，就是直接在模板中添加一个标签  <slot></slot>
+			 	
+			 	如果你需要在组件中添加多个代码块，并且显示在不同的地方，在使用组件的地方，給不同的代码块添加一个slot属性
+			 	在模板中你想要展示的位置使用slot标签的name属性指定放哪一个代码块
+			 * 
+			 * */
+		var  vw = new Vue({
+			el:"#app",
+			data:{
+				
+			},
+			components:{
+				"v-header":{
+					template:"#header",
+					data:function(){
+						return {
+							msg:"你会显示吗"
+						}
+					}
+				}
+			}
+			
+		})
+	</script>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="jslib/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{padding: 0;margin: 0;list-style: none;}
+			html,body,#app{
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+			#app{
+				display: flex;
+				flex-direction: column;
+			}
+			.header{
+				width: 100%;
+				height: 44px;
+				background-color: #f66;
+				color: #fff;
+				text-align: center;
+				line-height: 44px;
+			}
+			.content{
+				flex: 1;
+				overflow-y: auto;
+			}
+			.footer{
+				width: 100%;
+				height: 50px;
+				background-color: #efefef;
+				color: #333;
+				text-align: center;
+				line-height: 50px;
+			}
+			.footer ul{
+				width: 100%;
+				height: 100%;
+				display: flex;
+			}
+			.footer ul li{
+				flex: 1;
+			}
+			.footer ul li.active{
+				color: #f66;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!--<v-header></v-header>-->
+			<component :is="headercom"></component>
+			<!--<v-cart></v-cart>-->
+			<component :is="com"></component>
+			<v-footer></v-footer>
+		</div>
+		<template id="homeheader">
+			<header class='header'>
+				这里是首页头部组件
+			</header>
+		</template>
+		<template id="kindheader">
+			<header class='header'>
+				这里是分类头部组件
+			</header>
+		</template>
+		<template id="cartheader">
+			<header class='header'>
+				这里是购物车头部组件
+			</header>
+		</template>
+		<template id="userheader">
+			<header class='header'>
+				这里是我的头部组件
+			</header>
+		</template>
+		<template id="footer">
+			<footer class='footer'>
+				<ul>
+					<li v-for="(item,index) in footerList" @click="changeCom(index)" :class="{'active':currentIndex==index}">
+						<i class="iconfont">{{item.icon}}</i>
+						<p>{{item.title}}</p>
+					</li>
+				</ul>
+			</footer>
+		</template>
+		<template id="home">
+			<div class='content'>
+				我是首页组件
+				<button @click="toKind()">去分类组件</button>
+			</div>
+		</template>
+		<template id="kind">
+			<div class='content'>
+				我是分类组件
+			</div>
+		</template>
+		<template id="cart">
+			<div class='content'>
+				我是购物车组件
+			</div>
+		</template>
+		<template id="user">
+			<div class='content'>
+				我是我的组件
+			</div>
+		</template>
+	</body>
+	<script type="text/javascript">
+//		1.定义组件		----   和注册组件 一起 在 Vue的实例components选项中
+		
+		//2.注册组件  ---Vue 实例   components选项中
+		
+		//3.使用组件----在html代码中使用<v-header></v-header>来实现
+		var Ev = new  Vue();  //广播专用
+		var  vw = new Vue({
+			el:"#app",
+			data:{
+				com:"v-home",
+				headercom:"v-homeheader"
+			},
+			methods:{
+				changePage:function(index){
+					switch (index){
+						case 0:
+							this.com = "v-home";
+							this.headercom = "v-homeheader";
+							break;
+						case 1:
+							this.com = "v-kind";
+							this.headercom = "v-kindheader";
+							break;
+						case 2:
+							this.com = "v-cart";
+							this.headercom = "v-cartheader";
+							break;
+						case 3:
+							this.com = "v-user";
+							this.headercom = "v-userheader";
+							break;
+						default:
+							break;
+					}
+				}
+			},
+			components:{
+				"v-homeheader":{
+					template:"#homeheader"
+				},
+				"v-kindheader":{
+					template:"#kindheader"
+				},
+				"v-cartheader":{
+					template:"#cartheader"
+				},
+				"v-userheader":{
+					template:"#userheader"
+				},
+				"v-home":{
+					template:"#home",
+				},
+				"v-kind":{
+					template:"#kind",
+				},
+				"v-cart":{
+					template:"#cart"
+				},
+				"v-user":{
+					template:"#user"
+				},
+				"v-footer":{
+					template:"#footer",
+					data:function(){
+						return {
+							currentIndex:0,
+							footerList:[
+								{icon:"",title:"首页"},
+								{icon:"",title:"分类"},
+								{icon:"",title:"购物车"},
+								{icon:"",title:"我的"},
+							]
+						}
+					},
+					methods:{
+						changeCom:function(index){//点击底部改变选中的颜色，派发事件，去加载不同的页面-----最外面的mounted
+							this.currentIndex = index;//结合class属性   实现了动态添加active
+							this.$parent.changePage(index);
+						}
+					}
+				}
+			}
+		})
+	</script>
+</html>
